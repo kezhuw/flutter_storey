@@ -9,9 +9,10 @@ import 'package:storey/storey.dart';
 
 @immutable
 class StoreContainer extends StatefulWidget {
-  StoreContainer({Key key, this.store});
+  StoreContainer({Key key, this.store, this.child}) : super(key: key);
 
   final Store<dynamic> store;
+  final Widget child;
 
   @override
   _StoreContainerState createState() => new _StoreContainerState();
@@ -35,13 +36,13 @@ class _StoreContainerState extends State<StoreContainer> {
 
   @override
   Widget build(BuildContext context) {
-    return new StoreProvider(store: widget.store);
+    return new StoreProvider(store: widget.store, child: widget.child);
   }
 }
 
 @immutable
 class StoreProvider extends InheritedWidget {
-  StoreProvider({Key key, Widget child, this.store}) : super(key: key, child: child);
+  StoreProvider({Key key, this.store, Widget child}) : super(key: key, child: child);
 
   final Store<dynamic> store;
 
