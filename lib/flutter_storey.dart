@@ -9,7 +9,11 @@ import 'package:storey/storey.dart';
 
 @immutable
 class StoreContainer extends StatefulWidget {
-  StoreContainer({Key key, this.store, this.child}) : super(key: key);
+  StoreContainer({
+    Key key,
+    @required this.store,
+    @required this.child,
+  }) : super(key: key);
 
   final Store<dynamic> store;
   final Widget child;
@@ -19,7 +23,6 @@ class StoreContainer extends StatefulWidget {
 }
 
 class _StoreContainerState extends State<StoreContainer> {
-
   @override
   void dispose() {
     widget.store.teardown();
@@ -42,7 +45,11 @@ class _StoreContainerState extends State<StoreContainer> {
 
 @immutable
 class StoreProvider extends InheritedWidget {
-  StoreProvider({Key key, this.store, Widget child}) : super(key: key, child: child);
+  StoreProvider({
+    Key key,
+    @required this.store,
+    @required Widget child,
+  }) : super(key: key, child: child);
 
   final Store<dynamic> store;
 
@@ -72,8 +79,8 @@ bool _equals(dynamic a, dynamic b) {
 @immutable
 class StoreConnector<S, ViewModel> extends StatelessWidget {
   StoreConnector({
-    this.converter,
-    this.builder,
+    @required this.converter,
+    @required this.builder,
     this.path = const Iterable.empty(),
     this.debugTypeMatcher = const TypeMatcher<dynamic>(),
     bool equals(ViewModel a, ViewModel b) = _equals,
@@ -104,7 +111,12 @@ class StoreConnector<S, ViewModel> extends StatelessWidget {
 }
 
 class _StoreStreamListener<S, ViewModel>  extends StatefulWidget {
-  _StoreStreamListener({Key key, this.store, this.converter, this.equals, this.builder}) : super(key: key);
+  _StoreStreamListener({
+    Key key,
+    @required this.store,
+    @required this.converter,
+    this.equals,
+    @required this.builder}) : super(key: key);
 
   final Store<S> store;
   final StoreConverter<S, ViewModel> converter;
