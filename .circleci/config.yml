@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: debian:stretch
+    steps:
+      - checkout
+      - run: apt update && apt install -y git curl unzip
+      - run: git clone --depth 1 -b alpha https://github.com/flutter/flutter.git
+      - run: ./flutter/bin/flutter doctor
+      - run: ./flutter/bin/flutter test
