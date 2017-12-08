@@ -7,8 +7,17 @@ import 'package:flutter/material.dart';
 
 import 'package:storey/storey.dart';
 
+/// Container for storey store.
+///
+/// It teardown storey store in two situations:
+/// * This widget got unmounted from widget tree.
+/// * This widget got replaced by a widget with different store.
 @immutable
 class StoreContainer extends StatefulWidget {
+  /// Creates a StoreContainer with specified storey store and a child widget.
+  ///
+  /// The child widget will be placed at a tree with the specified store as root
+  /// store.
   StoreContainer({
     Key key,
     @required this.store,
@@ -43,8 +52,15 @@ class _StoreContainerState extends State<StoreContainer> {
   }
 }
 
+/// Provides storey store to all descendant widgets.
+///
+/// Use [StoreProvider.of] to retrieve the root store or its descendant store.
 @immutable
 class StoreProvider extends InheritedWidget {
+  /// Creates a StoreProvider with specified storey store and a child widget.
+  ///
+  /// The child widget will be placed at a tree with the specified store as root
+  /// store.
   StoreProvider({
     Key key,
     @required this.store,
@@ -53,6 +69,7 @@ class StoreProvider extends InheritedWidget {
 
   final Store<dynamic> store;
 
+  /// Retrieve the root store or its descendant with non empty path.
   static Store<S> of<S>(BuildContext context, {
     Iterable<dynamic> path = const Iterable.empty(),
     TypeMatcher debugTypeMatcher = const TypeMatcher<dynamic>(),
@@ -76,21 +93,40 @@ bool _equals(dynamic a, dynamic b) {
   return a == b;
 }
 
+/// Build widget based on state of store located at [path] of root store.
+///
+/// StoreConnector establishs connection to store located at [path] of the root
+/// store, uses [converter] to convert state to desired [ViewModel], and then
+/// use [builder] to produce final widget. The connected store becomes the root
+/// store of sub-tree which [builder] resides in.
 @immutable
 class StoreConnector<S, ViewModel> extends StatelessWidget {
+  /// Creates a StoreConnector.
   StoreConnector({
-    @required this.converter,
-    @required this.builder,
     this.path = const Iterable.empty(),
     this.debugTypeMatcher = const TypeMatcher<dynamic>(),
+    @required this.converter,
     bool equals(ViewModel a, ViewModel b) = _equals,
+    @required this.builder,
   }) : this.equals = equals;
 
-  final StoreConverter<S, ViewModel> converter;
-  final ViewModelWidgetBuilder<ViewModel> builder;
+  /// Location of store related to current root store.
   final Iterable<dynamic> path;
+
+  /// TypeMatcher for debug purpose.
   final debugTypeMatcher;
+
+  /// Convert state of store to [ViewModel].
+  final StoreConverter<S, ViewModel> converter;
+
+  /// Only trigger rebuild if new [ViewModel] not equals to last [ViewModel].
+  ///
+  /// Default to `==`. Set explicitly to null to trigger rebuild on every state
+  /// change. `identical` function is another choice.
   final _Equator equals;
+
+  /// Build widget with specified [ViewModel].
+  final ViewModelWidgetBuilder<ViewModel> builder;
 
   @override
   Widget build(BuildContext context) {
