@@ -1,5 +1,7 @@
 # flutter_storey
 
+[![Build Status](https://travis-ci.org/kezhuw/flutter_storey.svg?branch=master)](https://travis-ci.org/kezhuw/flutter_storey)
+
 Flutter binding to [storey][] which is a redux-like store management but with hierarchical support.
 
 ## Usages
