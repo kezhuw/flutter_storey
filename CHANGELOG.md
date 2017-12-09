@@ -1,3 +1,6 @@
+## 0.0.3
+* Update storey version to 0.1.0
+
 ## 0.0.2
 * Fix missing child widget for StoreContainer
 * Document public API
