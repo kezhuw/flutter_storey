@@ -85,6 +85,7 @@ void main() {
 
     setUp(() {
       store  = new Store<FooState>(
+        name: 'foo',
         initialState: new FooState(),
         reducer: fooReducer,
       );
@@ -128,6 +129,7 @@ void main() {
       await tester.pumpWidget(buildWidget(store: store));
 
       Store<FooState> anotherStore = new Store<FooState>(
+        name: 'foo',
         initialState: new FooState(),
         reducer: fooReducer,
       );
@@ -143,16 +145,16 @@ void main() {
 
     setUp(() {
       barStore  = new Store<BarState>(
+        name: 'bar',
         initialState: new BarState(),
         reducer: barReducer,
       );
 
       fooStore  = new Store<FooState>(
+        name: 'foo',
         initialState: new FooState(),
         reducer: fooReducer,
-        children: <ValueKey<String>, Store<dynamic>>{
-          const ValueKey<String>('bar'): barStore,
-        },
+        children: [barStore],
       );
     });
 
@@ -189,7 +191,7 @@ void main() {
         store: fooStore,
         child: new Builder(
             builder: (BuildContext context) {
-              actualStore = StoreProvider.of(context, path: [const ValueKey<String>('bar')]);
+              actualStore = StoreProvider.of(context, path: ['bar']);
               return const SizedBox();
             }
         ),
@@ -226,24 +228,23 @@ void main() {
 
     setUp(() {
       foobarStore = new Store<FoobarState>(
+        name: 'foobar',
         initialState: new FoobarState(),
         reducer: foobarReducer,
       );
 
       barStore  = new Store<BarState>(
+        name: 'bar',
         initialState: new BarState(),
         reducer: barReducer,
-        children: {
-          const ValueKey<String>('foobar'): foobarStore,
-        },
+        children: [foobarStore],
       );
 
       fooStore  = new Store<FooState>(
+        name: 'foo',
         initialState: new FooState(),
         reducer: fooReducer,
-        children: <ValueKey<String>, Store<dynamic>>{
-          const ValueKey<String>('bar'): barStore,
-        },
+        children: [barStore],
       );
     });
 
@@ -290,7 +291,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         builder: (BuildContext context, BarModel model) {
           actualStore = StoreProvider.of(context);
           return const SizedBox();
@@ -305,7 +306,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         builder: (BuildContext context, BarModel model) {
           stores.add(StoreProvider.of(context));
           return const SizedBox();
@@ -324,7 +325,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         builder: (BuildContext context, BarModel model) {
           stores.add(StoreProvider.of(context));
           return const SizedBox();
@@ -343,7 +344,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         equals: kEqualsNull,
         builder: (BuildContext context, BarModel model) {
           stores.add(StoreProvider.of(context));
@@ -363,7 +364,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         equals: kEqualsNull,
         builder: (BuildContext context, BarModel model) {
           stores.add(StoreProvider.of(context));
@@ -383,7 +384,7 @@ void main() {
 
       await tester.pumpWidget(buildWidget(
         store: fooStore,
-        path: [const ValueKey<String>('bar')],
+        path: ['bar'],
         equals: kEqualsNull,
         builder: (BuildContext context, BarModel model) {
           stores.add(StoreProvider.of(context));
