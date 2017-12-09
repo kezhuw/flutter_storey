@@ -71,7 +71,7 @@ class StoreProvider extends InheritedWidget {
 
   /// Retrieve the root store or its descendant with non empty path.
   static Store<S> of<S>(BuildContext context, {
-    Iterable<dynamic> path = const Iterable.empty(),
+    Iterable<String> path = const Iterable.empty(),
     TypeMatcher debugTypeMatcher = const TypeMatcher<dynamic>(),
   }) {
     StoreProvider provider = context.inheritFromWidgetOfExactType(StoreProvider);
@@ -111,7 +111,7 @@ class StoreConnector<S, ViewModel> extends StatelessWidget {
   }) : this.equals = equals;
 
   /// Location of store related to current root store.
-  final Iterable<dynamic> path;
+  final Iterable<String> path;
 
   /// TypeMatcher for debug purpose.
   final debugTypeMatcher;
